@@ -1,4 +1,4 @@
-name: 'Horusec'
+name: 'Horusec - Bom Dia Codigo'
 description: 'Run Horusec SAST in your code'
 inputs:
   arguments:
@@ -14,4 +14,4 @@ runs:
 
 branding:
   icon: "check"
-  color: "orange"
+  color: "green"
