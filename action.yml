@@ -1,5 +1,5 @@
 name: 'Horusec - Bom Dia Codigo'
-description: 'Run Horusec SAST in your code'
+description: 'Horusec SAST Github Action for Bom Dia Codigo labs'
 inputs:
   arguments:
     description: Arguments for horusec
