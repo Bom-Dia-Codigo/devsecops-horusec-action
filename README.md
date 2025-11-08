@@ -51,3 +51,6 @@ jobs:
 Build Action based Docker purely isn't flexible to split arguments like it's possible when build using Javascript/Typescript.
 
 This is a proof of concept to running Horusec as a Github Action.
+
+This is a fork of fike/horusec-action, this fork and changes were made for didatic and integrity purposes.
+Thanks Fike, counts on me :)
