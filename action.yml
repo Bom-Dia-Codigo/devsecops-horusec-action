@@ -1,17 +1,29 @@
 name: 'Horusec - Bom Dia Codigo'
 description: 'Horusec SAST Github Action for Bom Dia Codigo labs'
 inputs:
-  arguments:
-    description: Arguments for horusec
+  path:
+    description: Target directory passed to Horusec via -p
     required: false
-    
+    default: ./
+  arguments:
+    description: Additional arguments forwarded to horusec start
+    required: false
+    default: ''
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.arguments }}
-
-
+  using: 'composite'
+  steps:
+    - name: Install Horusec CLI
+      shell: bash
+      run: |
+        set -euo pipefail
+        curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest-beta
+    - name: Run Horusec
+      shell: bash
+      env:
+        HORUSEC_EXTRA_ARGS: ${{ inputs.arguments }}
+      run: |
+        set -euo pipefail
+        horusec start -p "${{ inputs.path }}" ${HORUSEC_EXTRA_ARGS}
 branding:
-  icon: "check"
-  color: "green"
+  icon: 'check'
+  color: 'green'

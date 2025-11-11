@@ -4,46 +4,40 @@
 
 ## How to use
 
-You can put arguments as cli (`--ignore="**/tmp/**"`), but the better way when use a configuration file. To generate the configuration file:
+This action is now a simple composite action that installs the Horusec CLI on the runner (no Docker build required) and immediately executes `horusec start`.
+
+- `path` (default `./`): forwarded to `horusec start -p`.
+- `arguments` (optional): any extra flags you would normally pass to `horusec start` (e.g. `--log-level=debug`, `--custom-rules-path=horusec-config.json`, `--ignore=...`).
+
+Example workflow:
+
+```yml
+on: [push]
+
+jobs:
+  checking_code:
+    runs-on: ubuntu-latest
+    name: Horusec Scan
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Horusec
+        uses: Bom-Dia-Codigo/devsecops-horusec-action@v0.2.5
+        with:
+          path: ./  # optional, defaults to ./ already
+          arguments: --log-level=debug --custom-rules-path=horusec-config.json
+```
+
+If you prefer to manage everything through a Horusec config file, generate it locally first:
 
 ```bash
 horusec generate
 ```
 
-Below is an example with Horusec configuration. If you want to see how to use in the a real project, you can see [here](https://github.com/fike/fastapi-blog/blob/main/.github/workflows/sast.yml).
+Then commit the config and pass it through `arguments`, for example:
 
 ```yml
-on: [push]
-
-jobs:
-  checking_code:
-    runs-on: ubuntu-latest
-    name: Horusec Scan
-    steps:
-      - name: Run Horusec
-        id: run_horusec
-        uses: Bom-Dia-Codigo/devsecops-horusec-action@v0.2.2
-        with:
-          arguments: --config-file-path=horusec-config.json
-```
-
-The most common argument to pass is `--ignore` directories and target path. You can add any extra argument for Horusec supported but keep in mind that use in the argument line for your Action workflow.
-
-Here is an example to ignore some directories and the target path is `"/"`.
-
-```yml
-on: [push]
-
-jobs:
-  checking_code:
-    runs-on: ubuntu-latest
-    name: Horusec Scan
-    steps:
-      - name: Run Horusec
-        id: run_horusec
-        uses: Bom-Dia-Codigo/devsecops-horusec-action@v0.2.2
-        with:
-          arguments: -p="./" --ignore="**/.vscode/**, **/*.env, **/.mypy_cache/**, **/tests/**"
+with:
+  arguments: --config-file-path=horusec-config.json
 ```
 
 ## Known Issue
