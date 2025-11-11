@@ -5,7 +5,7 @@ FROM alpine:latest
 COPY entrypoint.sh /entrypoint.sh
 
 RUN apk add curl bash sudo && \
-    curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest 
+    curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest-beta
 
 WORKDIR /opt/data
 
